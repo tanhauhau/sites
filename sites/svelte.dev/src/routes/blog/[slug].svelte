@@ -7,7 +7,7 @@
 		if (!res.ok) return { status: 404, error: 'That post could not be found' };
 
 		const data = await res.json();
-		if (!data.draft) return { props: { post: data } };
+		if (data) return { props: { post: data } };
 		return { status: 404, error: 'That post could not be found' };
 	}
 </script>
@@ -28,6 +28,7 @@
 
 <article class="post listify">
 	<h1>{post.title}</h1>
+	{#if post.draft}<span class="draft">draft</span>{/if}
 	<p class="standfirst">{post.description}</p>
 
 	<p class="byline">
@@ -48,6 +49,17 @@
 	h1 {
 		font-size: 4rem;
 		font-weight: 400;
+	}
+
+	.draft {
+		background-color: var(--second);
+		color: white;
+		border-radius: 4px;
+		padding: 0.2em 0.5em;
+		font-size: 0.8em;
+		margin-bottom: 0.2em;
+		display: inline-block;
+		opacity: 0.8;
 	}
 
 	.standfirst {
